@@ -1,0 +1,59 @@
+@model DisponibilidadFiltroViewModel
+
+@{
+    ViewData["Title"] = "Disponibilidad";
+}
+
+<h1>Disponibilidad de habitaciones</h1>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-action="Disponibles" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <label class="form-label">Fecha de ingreso</label>
+        <input type="date" name="fechaIngreso" value="@Model.FechaIngreso?.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <label class="form-label">Fecha de salida</label>
+        <input type="date" name="fechaSalida" value="@Model.FechaSalida?.ToString("yyyy-MM-dd")" class="form-control" />
+    </div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+@if (Model.Buscado)
+{
+    if (Model.Resultados.Count == 0)
+    {
+        <p>No hay habitaciones disponibles en ese rango de fechas.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Tipo</th>
+                    <th>Capacidad</th>
+                    <th>Noches</th>
+                    <th>Precio/noche</th>
+                    <th>Total estimado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Resultados)
+                {
+                    <tr>
+                        <td>@item.Habitacion.Numero</td>
+                        <td>@item.Habitacion.IdTipoHabitacionNavigation.Nombre</td>
+                        <td>@item.Habitacion.IdTipoHabitacionNavigation.Capacidad</td>
+                        <td>@item.Noches</td>
+                        <td>@item.Habitacion.IdTipoHabitacionNavigation.PrecioNoche.ToString("C2")</td>
+                        <td>@item.Total.ToString("C2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

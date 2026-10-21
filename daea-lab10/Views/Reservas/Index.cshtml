@@ -1,0 +1,59 @@
+@model List<Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<h1>Reservas</h1>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nueva reserva</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Huésped</th>
+            <th>Habitación</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+            <th>Estado</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reserva in Model)
+        {
+            var noches = reserva.FechaSalida.DayNumber - reserva.FechaIngreso.DayNumber;
+            var total = noches * reserva.IdHabitacionNavigation.IdTipoHabitacionNavigation.PrecioNoche;
+            <tr>
+                <td>@reserva.IdHuespedNavigation.Apellidos, @reserva.IdHuespedNavigation.Nombres</td>
+                <td>@reserva.IdHabitacionNavigation.Numero</td>
+                <td>@reserva.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                <td>@reserva.FechaSalida.ToString("dd/MM/yyyy")</td>
+                <td>@reserva.Estado</td>
+                <td>@total.ToString("C2")</td>
+                <td>
+                    @if (reserva.Estado == "Pendiente")
+                    {
+                        <form asp-action="Confirmar" asp-route-id="@reserva.IdReserva" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-success">Confirmar</button>
+                        </form>
+                    }
+                    @if (reserva.Estado == "Pendiente" || reserva.Estado == "Confirmada")
+                    {
+                        <form asp-action="Cancelar" asp-route-id="@reserva.IdReserva" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

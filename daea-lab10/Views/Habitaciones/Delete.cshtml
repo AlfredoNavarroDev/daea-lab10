@@ -1,0 +1,26 @@
+@model Habitacion
+
+@{
+    ViewData["Title"] = "Eliminar habitación";
+}
+
+<h1>Eliminar habitación</h1>
+
+<p>¿Confirma eliminar (dar de baja) esta habitación?</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Número</dt>
+    <dd class="col-sm-9">@Model.Numero</dd>
+
+    <dt class="col-sm-3">Piso</dt>
+    <dd class="col-sm-9">@Model.Piso</dd>
+
+    <dt class="col-sm-3">Tipo</dt>
+    <dd class="col-sm-9">@Model.IdTipoHabitacionNavigation.Nombre</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="IdHabitacion" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

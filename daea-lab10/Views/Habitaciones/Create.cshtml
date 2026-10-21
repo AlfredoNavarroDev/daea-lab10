@@ -1,0 +1,34 @@
+@model Habitacion
+
+@{
+    ViewData["Title"] = "Nueva habitación";
+}
+
+<h1>Nueva habitación</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Numero" class="form-label"></label>
+        <input asp-for="Numero" class="form-control" />
+        <span asp-validation-for="Numero" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Piso" class="form-label"></label>
+        <input asp-for="Piso" class="form-control" />
+        <span asp-validation-for="Piso" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdTipoHabitacion" class="form-label">Tipo de habitación</label>
+        <select asp-for="IdTipoHabitacion" asp-items="ViewBag.Tipos" class="form-select">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="IdTipoHabitacion" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

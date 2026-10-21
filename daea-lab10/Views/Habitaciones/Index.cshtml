@@ -1,0 +1,63 @@
+@model List<Habitacion>
+
+@{
+    ViewData["Title"] = "Habitaciones";
+}
+
+<h1>Habitaciones</h1>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nueva habitación</a>
+</p>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="idTipoHabitacion" asp-items="ViewBag.Tipos" class="form-select">
+            <option value="">-- Todos los tipos --</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="orden" class="form-select">
+            <option value="numero_asc" selected="@(ViewBag.Orden == "numero_asc")">Número ascendente</option>
+            <option value="numero_desc" selected="@(ViewBag.Orden == "numero_desc")">Número descendente</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-secondary">Filtrar</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Número</th>
+            <th>Piso</th>
+            <th>Tipo</th>
+            <th>Capacidad</th>
+            <th>Precio/noche</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var habitacion in Model)
+        {
+            <tr>
+                <td>@habitacion.Numero</td>
+                <td>@habitacion.Piso</td>
+                <td>@habitacion.IdTipoHabitacionNavigation.Nombre</td>
+                <td>@habitacion.IdTipoHabitacionNavigation.Capacidad</td>
+                <td>@habitacion.IdTipoHabitacionNavigation.PrecioNoche.ToString("C2")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@habitacion.IdHabitacion" class="btn btn-sm btn-outline-secondary">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@habitacion.IdHabitacion" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@habitacion.IdHabitacion" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

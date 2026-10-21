@@ -1,0 +1,48 @@
+@model Reserva
+
+@{
+    ViewData["Title"] = "Nueva reserva";
+}
+
+<h1>Nueva reserva</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="IdHuesped" class="form-label">Huésped</label>
+        <select asp-for="IdHuesped" asp-items="ViewBag.Huespedes" class="form-select">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="IdHuesped" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdHabitacion" class="form-label">Habitación</label>
+        <select asp-for="IdHabitacion" asp-items="ViewBag.Habitaciones" class="form-select">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="IdHabitacion" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaIngreso" class="form-label"></label>
+        <input asp-for="FechaIngreso" class="form-control" type="date" />
+        <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaSalida" class="form-label"></label>
+        <input asp-for="FechaSalida" class="form-control" type="date" />
+        <span asp-validation-for="FechaSalida" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Observaciones" class="form-label"></label>
+        <textarea asp-for="Observaciones" class="form-control" maxlength="200"></textarea>
+        <span asp-validation-for="Observaciones" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
